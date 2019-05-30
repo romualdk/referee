@@ -1,3 +1,3 @@
-# referee
+# Referee card
 
-[http://xrom.webd.pro/referee]
+http://xrom.webd.pro/referee
