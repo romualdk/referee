@@ -1,4 +1,4 @@
-/* global $ */
+/* global $, download */
 
 var MatchTimer = {}
 MatchTimer.database = {}
@@ -8,6 +8,7 @@ MatchTimer.data = {
   currentMatch: null
 }
 
+/*
 function sleep (milliseconds) {
   var start = new Date().getTime()
   for (var i = 0; i < 1e7; i++) {
@@ -16,6 +17,7 @@ function sleep (milliseconds) {
     }
   }
 }
+*/
 
 MatchTimer.init = function () {
   this.initData()
@@ -36,7 +38,7 @@ MatchTimer.init = function () {
     }
 
     if (typeof (MatchTimer.config.emails) !== 'undefined') {
-      for (key in MatchTimer.config.emails) {
+      for (var key in MatchTimer.config.emails) {
         $('.emailscreen form').append('<div class="listitem"><input type="checkbox" class="email_y" value="' + MatchTimer.config.emails[key][0] + '"><label class="emaillist emailcheck_' + key + '">' + MatchTimer.config.emails[key][1] + '</label></div>')
 
         $('.emailcheck_' + key).click(function () {
@@ -192,35 +194,26 @@ MatchTimer.init = function () {
 
   $('button.addnewmatch').click(function () {
     var team1 = $('.newmatchscreen .team1').val()
-
     var team2 = $('.newmatchscreen .team2').val()
-
     var refereeName = $('.newmatchscreen .referee').val()
 
     if (typeof (MatchTimer.database.teams[team1]) !== 'undefined' &&
-
         typeof (MatchTimer.database.teams[team2]) !== 'undefined' &&
-
-        team1 != team2 &&
-
+        team1 !== team2 &&
         typeof (refereeName) !== 'undefined' &&
-
         refereeName.length > 0) {
       MatchTimer.addMatch(team1, team2, refereeName)
 
       $('.newmatchscreen .team1 option:selected').removeAttr('selected')
-
       $('.newmatchscreen .team2 option:selected').removeAttr('selected')
-
       $('.newmatchscreen .team1 option:disabled').prop('selected', true)
-
       $('.newmatchscreen .team2 option:disabled').prop('selected', true)
     }
   })
 }
 
-String.prototype.escapeDiacritics = function () {
-  return this.replace(/ą/g, 'a').replace(/Ą/g, 'A')
+function escapeDiacritics (str) {
+  return str.replace(/ą/g, 'a').replace(/Ą/g, 'A')
     .replace(/ć/g, 'c').replace(/Ć/g, 'C')
     .replace(/ę/g, 'e').replace(/Ę/g, 'E')
     .replace(/ł/g, 'l').replace(/Ł/g, 'L')
@@ -248,44 +241,73 @@ MatchTimer.refreshTeamChecklist = function () {
   var list1 = $('.teamchecklistscreen .teamlist form.team1')
   var list2 = $('.teamchecklistscreen .teamlist form.team2')
 
-  list1.empty()
-
   // Team 1
+  list1.empty()
   list1.append(`<div class="teams"><div class="team field">` + match.team1.name + `</div></div>`)
 
-  for (var i in db1) {
+  for (let i in db1) {
     if (db1[i] !== 'SAMOBÓJ') {
-      var checked = match.team1.players.includes(db1[i]) ? ' checked="checked"' : ''
+      let checked = match.team1.players.includes(db1[i]) ? ' checked="checked"' : ''
       list1.append(`<div class="listitem">
-      <input type="checkbox" name="` + i + `"` + checked + `><label>` + db1[i] + `</label>
+      <input type="checkbox" name="` + i + `"` + checked + ` team="team1"><label>` + db1[i] + `</label>
      </div>`)
     }
   }
 
   // Team 2
+  list2.empty()
   list2.append(`<div class="teams"><div class="team field">` + match.team2.name + `</div></div>`)
 
-  for (var i in db2) {
+  for (let i in db2) {
     if (db2[i] !== 'SAMOBÓJ') {
-      var checked = match.team2.players.includes(db2[i]) ? ' checked="checked"' : ''
+      let checked = match.team2.players.includes(db2[i]) ? ' checked="checked"' : ''
       list2.append(`<div class="listitem">
-      <input type="checkbox" name="` + i + `"` + checked + `><label>` + db2[i] + `</label>
+      <input type="checkbox" name="` + i + `"` + checked + ` team="team2"><label>` + db2[i] + `</label>
      </div>`)
     }
   }
 
-  $('.teamchecklistscreen .listitem').click(function () {
-    console.log($(this))
+  $('.teamchecklistscreen .listitem label').click(function () {
+    var team = $(this).parent().find('input').attr('team')
+    var player = $(this).text()
+    var checkbox = $(this).parent().find('input')
+    var checked = !checkbox[0].checked
+    checkbox[0].checked = checked
 
-    // -----------------------------------------------------
+    updateTeamPlayer(team, player, checked)
   })
+
+  $('.teamchecklistscreen .listitem input').change(function () {
+    var team = $(this).attr('team')
+    var player = $(this).parent().find('label').text()
+    var checked = $(this)[0].checked
+
+    updateTeamPlayer(team, player, checked)
+  })
+}
+
+function updateTeamPlayer (team, player, checked) {
+  var match = MatchTimer.data.match[MatchTimer.data.currentMatch]
+
+  if (checked) {
+    match[team].players.push(player)
+    match[team].players.sort()
+  } else {
+    const index = match[team].players.indexOf(player)
+    if (index > -1) {
+      match[team].players.splice(index, 1)
+    }
+  }
+
+  // remove duplicates
+  match[team].players = [...new Set(match[team].players)]
+
+  MatchTimer.storeData()
 }
 
 MatchTimer.addMatch = function (team1, team2, refereeName) {
   var id = team1 + '_' + team2 + '_' + MatchTimer.getActualDate()
-
-  id = id.escapeDiacritics()
-
+  id = escapeDiacritics(id)
   id = id.replace(/[^0-9a-z_]/gi, '')
 
   if (typeof (this.data.match[id]) !== 'undefined') {
@@ -403,8 +425,8 @@ MatchTimer.isRunningAnyMatch = function () {
 
 MatchTimer.showScreen = function (screenName) {
   $('.screen').not('.disabled').addClass('disabled')
-
   $('.screen.' + screenName).removeClass('disabled')
+  window.scrollTo(0, 0)
 }
 
 MatchTimer.setDeleteButtonState = function () {
@@ -422,95 +444,160 @@ MatchTimer.setDeleteButtonState = function () {
     var button = $('.controls .delete')
 
     $(button).removeClass('inactive')
-
     $(button).off('click')
-
     $(button).click(function () {
       MatchTimer.showScreen('confirmdeletescreen')
     })
 
     // EMAIL MATCH
 
-    var button = $('.controls .email')
+    button = $('.controls .email')
 
     $(button).removeClass('inactive')
-
     $(button).off('click')
-
     $(button).click(function () {
       MatchTimer.showScreen('emailscreen')
-
-      // $(".emailscreen .email").val(MatchTimer.config.email);
-
       $('.emailscreen .email').val('')
     })
 
     // DOWNLOAD MATCH
 
-    var button = $('.controls .download')
+    button = $('.controls .download')
 
     $(button).removeClass('inactive')
-
     $(button).off('click')
-
     $(button).click(function () {
       var match = MatchTimer.data.match[MatchTimer.data.currentMatch]
 
       if (match.events.length > 0) {
-        var team1 = match.team1.name
-
-        var team2 = match.team2.name
-
-        var date = match.date
-
-        var refereeName = match.refereeName
-
-        var events = ''
-
-        var subject = date + ': ' + team1 + ' vs ' + team2
-
-        var body = '<h1>' + team1 + ' ' + match.team1.points + ':' + match.team2.points + ' ' + team2 + '\n</h1>'
-
-        body += '<h2>' + date + '</h2>'
-
-        body += '<h3>Sędzia: ' + refereeName + '</h3>'
-
-        body += '<table>'
-
-        for (var key in match.events) {
-          var event = match.events[key]
-
-          body += '<tr>'
-
-          body += '<td>' + event.timerTime + '</td><td>' + event.description + '</td><td>' + event.actualTime + '</td>'
-
-          body += '</tr>'
-        }
-
-        body += '</table>'
-
-        body += '<pre>' + match.notes + '</pre>'
-
-        var html = '<html>'
-
-        html += '<head><meta charset="utf-8"><title>' + subject + '</title></head>'
-
-        html += '<body>' + body + '</body>'
-
-        html += '</html>'
-
-        download(html, date + ' ' + team1 + ' vs ' + team2 + '.html', 'text/html')
-
-        // download(JSON.stringify(MatchTimer.data.match[MatchTimer.data.currentMatch]), "match.txt", "text/plain");
+        var html = getMatchHtml(match)
+        download(html, match.date + ' ' + match.team1.name + ' vs ' + match.team2.name + '.html', 'text/html')
       }
     })
   } else {
     $(button).addClass('inactive')
-
     $(button).off('click')
-
     $(button).click(function () { return false })
   }
+}
+
+/**
+ * MATCH HTML FILE
+ */
+function getMatchHtml (match) {
+  var html =
+  `<html>
+    <head>
+      <meta charset="utf-8">
+      <title>${match.date} : ${match.team1.name} vs ${match.team2.name}</title>
+      <style type="text/css">
+        html,
+        body {
+          font-family: Helvetica Neue, sans-serif;
+        }
+
+        .wrapper {
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          margin: auto;
+          width: 600px;
+        }
+
+        @media screen and (max-width: 500px) {
+          .wrapper {
+            width: 100%;
+            margin: 0;
+          }
+        }
+
+        h1, h2, h3 {
+          text-align: center;
+        }
+
+        table {
+          border-collapse: collapse;
+          margin-bottom: 16px;
+          width: 100%
+        }
+        
+        table, th, td {
+          border: 1px solid black;
+        }
+
+        td {
+          padding: 4px 8px;
+        }
+      </style>
+    </head>
+  <body>
+  <div class="wrapper">
+    <h1>
+      <span class="team1">${match.team1.name}</span> 
+      <span class="team1_points">${match.team1.points}</span>
+      : 
+      <span class="team2_points">${match.team2.points}</span> 
+      <span class="team2">${match.team2.name}</span>
+    </h1>
+    <h2><span class="date">${match.date}</span></h2>
+    <h3>Sędzia: <span class="referee">${match.refereeName}</span></h3>`
+
+  if (typeof match.team1.players !== 'undefined' || typeof match.team2.players !== 'undefined') {
+    var n = Math.max(match.team1.players.length, match.team2.players.length)
+
+    if (n > 0) {
+      html +=
+      `<table class="players">
+      <tr>
+        <th colspan="2">Skład drużyn</th>
+      </tr>
+      <tr>
+        <th>${match.team1.name}</th>
+        <th>${match.team2.name}</th>
+      </tr>`
+
+      for (var nn = 0; nn < n; nn++) {
+        var p1 = typeof match.team1.players[nn] !== 'undefined' ? match.team1.players[nn] : ''
+        var p2 = typeof match.team2.players[nn] !== 'undefined' ? match.team2.players[nn] : ''
+        html +=
+        `<tr>
+          <td class="team1 player">${p1}</td>
+          <td class="team2 player">${p2}</td>
+        </tr>`
+      }
+
+      html += `</table>`
+    }
+  }
+
+  if (match.events.length > 0) {
+    html += `<table class="events">
+    <tr>
+      <th colspan="3">Zdarzenia</th>
+    </tr>`
+
+    for (var key in match.events) {
+      var event = match.events[key]
+      html +=
+      `<tr class="event">
+        <td class="timerTime">${event.timerTime}</td>
+        <td class="description">${event.description}</td>
+        <td class="actualTime">${event.actualTime}</td>
+      </tr>`
+    }
+
+    html += `</table>`
+  }
+
+  html += `<pre class="notes">${match.notes}</pre>`
+
+  html +=
+  `</div>
+  </body>
+  </html>`
+
+  return html
 }
 
 MatchTimer.setMatch = function (key) {
