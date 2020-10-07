@@ -15,7 +15,7 @@ $subject = $_POST['subject'];
 $body = $_POST['body'];
 
 $smtpUsername = "referee@xrom.webd.pro";
-$smtpPassword = "xl15zwTT";
+$smtpPassword = "SERVER_PASSWORD";
 $emailFrom = $smtpUsername;
 $emailFromName = 'Karta sędziego';
 $emailTo = $to;
