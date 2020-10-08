@@ -3,7 +3,7 @@
 
 importScripts('js/cache-polyfill.js')
 
-var version = '0.061020202216'
+var version = '0.081020202021'
 var cacheName = 'cache_' + version
 
 var filesToCache = [

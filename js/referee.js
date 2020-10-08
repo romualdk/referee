@@ -1,4 +1,4 @@
-/* global $, download */
+/* global $, download, localStorage, Email */
 
 var MatchTimer = {}
 MatchTimer.database = {}
@@ -8,24 +8,12 @@ MatchTimer.data = {
   currentMatch: null
 }
 
-/*
-function sleep (milliseconds) {
-  var start = new Date().getTime()
-  for (var i = 0; i < 1e7; i++) {
-    if ((new Date().getTime() - start) > milliseconds) {
-      break
-    }
-  }
-}
-*/
-
 MatchTimer.init = function () {
   this.initData()
-
   this.refreshMatchList()
 
   $.getJSON('data/config.json', function (data) {
-    if (typeof (data.match) === 'undefiend') {
+    if (typeof (data) === 'undefined') {
       return false
     }
 
@@ -57,7 +45,7 @@ MatchTimer.init = function () {
   })
 
   $.getJSON('data/data.json', function (data) {
-    if (typeof (data.match) === 'undefiend') {
+    if (typeof (data) === 'undefined') {
       return false
     }
 
@@ -652,17 +640,17 @@ MatchTimer.setMatch = function (key) {
   $('.goalscreen select.goalplayer').change(function () {
     var player = $('.goalscreen select.goalplayer').val()
 
-    if (player == 'SAMOBÓJ') {
+    if (player === 'SAMOBÓJ') {
       var team = $('.goalscreen select.goalteam').val()
 
       var match = MatchTimer.data.match[MatchTimer.data.currentMatch]
 
       var opponentTeam = null
 
-      if (team == match.team1.name) {
-        var opponentTeam = match.team2.name
-      } else if (team == match.team2.name) {
-        var opponentTeam = match.team1.name
+      if (team === match.team1.name) {
+        opponentTeam = match.team2.name
+      } else if (team === match.team2.name) {
+        opponentTeam = match.team1.name
       }
 
       if (typeof (MatchTimer.database.teams[opponentTeam]) !== 'undefined') {
@@ -729,54 +717,26 @@ MatchTimer.addGoal = function () {
 
   var match = MatchTimer.data.match[MatchTimer.data.currentMatch]
 
-  if (team != match.team1.name && team != match.team2.name) {
+  if (team !== match.team1.name && team !== match.team2.name) {
     return false
-  } else if (team == match.team1.name) {
+  }
+  /*
+  else if (team === match.team1.name) {
     var teamNo = 1
   } else {
     var teamNo = 2
   }
+  */
 
-  if (MatchTimer.database.teams[team].indexOf(player) == -1) {
+  if (MatchTimer.database.teams[team].indexOf(player) === -1) {
     return false
   }
 
-  /*
-
-    if(player == "SAMOBÓJ") {
-
-        teamNo = teamNo == 1 ? 2 : 1;
-
-    }
-
-*/
-
   // Edytuj
+  var addEvent = false
 
-  if (MatchTimer.editEvent == true) {
-    /*
-
-        if(MatchTimer.data.match[MatchTimer.data.currentMatch].events[MatchTimer.eventId].val1 != team) {
-
-            if(teamNo == 1) {
-
-                MatchTimer.data.match[MatchTimer.data.currentMatch].team1.points += 1;
-
-                MatchTimer.data.match[MatchTimer.data.currentMatch].team2.points -= 1;
-
-            }
-
-            else if(teamNo == 2) {
-
-                MatchTimer.data.match[MatchTimer.data.currentMatch].team2.points += 1;
-
-                MatchTimer.data.match[MatchTimer.data.currentMatch].team1.points -= 1;
-
-            }
-
-        } */
-
-    if (player == 'SAMOBÓJ') {
+  if (MatchTimer.editEvent === true) {
+    if (player === 'SAMOBÓJ') {
       var opponentPlayer = $('.goalscreen select.opponentPlayer').val()
 
       if (opponentPlayer !== null) {
@@ -791,31 +751,20 @@ MatchTimer.addGoal = function () {
     }
 
     MatchTimer.refreshPointsView()
-
     MatchTimer.showScreen('gameplayscreen')
 
     $('.goalscreen .goalteam option:selected').removeAttr('selected')
-
     $('.goalscreen .goalplayer option:selected').removeAttr('selected')
-
     $('.goalscreen .opponentPlayer option:selected').removeAttr('selected')
-
     $('.goalscreen .goalteam option:disabled').prop('selected', true)
-
     $('.goalscreen .goalplayer option:disabled').prop('selected', true)
-
     $('.goalscreen .opponentPlayer option:disabled').prop('selected', true)
-
     $('.goalscreen div.opponentPlayer').addClass('disabled')
-  }
+  } else { // Dodaj
+    addEvent = false
 
-  // Dodaj
-
-  else {
-    var addEvent = false
-
-    if (player == 'SAMOBÓJ') {
-      var opponentPlayer = $('.goalscreen select.opponentPlayer').val()
+    if (player === 'SAMOBÓJ') {
+      opponentPlayer = $('.goalscreen select.opponentPlayer').val()
 
       if (opponentPlayer !== null) {
         MatchTimer.addEvent('goal', 'Gol ' + team + ' (' + player + ' ' + opponentPlayer + ')', team, player)
@@ -829,36 +778,15 @@ MatchTimer.addGoal = function () {
     }
 
     if (addEvent) {
-      /* if(teamNo == 1) {
-
-                MatchTimer.data.match[MatchTimer.data.currentMatch].team1.points += 1;
-
-            }
-
-            else if(teamNo == 2) {
-
-                MatchTimer.data.match[MatchTimer.data.currentMatch].team2.points += 1;
-
-            }
-
-    */
-
       MatchTimer.refreshPointsView()
-
       MatchTimer.showScreen('gameplayscreen')
 
       $('.goalscreen .goalteam option:selected').removeAttr('selected')
-
       $('.goalscreen .goalplayer option:selected').removeAttr('selected')
-
       $('.goalscreen .opponentPlayer option:selected').removeAttr('selected')
-
       $('.goalscreen .goalteam option:disabled').prop('selected', true)
-
       $('.goalscreen .goalplayer option:disabled').prop('selected', true)
-
       $('.goalscreen .opponentPlayer option:disabled').prop('selected', true)
-
       $('.goalscreen div.opponentPlayer').addClass('disabled')
     }
   }
@@ -877,105 +805,68 @@ MatchTimer.addCard = function () {
     return false
   }
 
-  if (team != match.team1.name && team != match.team2.name) {
+  if (team !== match.team1.name && team !== match.team2.name) {
     return false
   }
 
-  if (MatchTimer.database.teams[team].indexOf(player) == -1) {
+  if (MatchTimer.database.teams[team].indexOf(player) === -1) {
     return false
   }
 
-  if (MatchTimer.editEvent == true) {
+  if (MatchTimer.editEvent === true) {
     // Edytuj
 
     MatchTimer.addEvent('card', type + ' ' + player + ' (' + team + ')', type, team, player)
-
     MatchTimer.showScreen('gameplayscreen')
 
     $('.cardscreen .cardtype option:selected').removeAttr('selected')
-
     $('.cardscreen .cardteam option:selected').removeAttr('selected')
-
     $('.cardscreen .cardplayer option:selected').removeAttr('selected')
-
     $('.cardscreen .cardtype option:disabled').prop('selected', true)
-
     $('.cardscreen .cardteam option:disabled').prop('selected', true)
-
     $('.cardscreen .cardplayer option:disabled').prop('selected', true)
   } else {
     // Dodaj
 
     MatchTimer.addEvent('card', type + ' ' + player + ' (' + team + ')', type, team, player)
-
     MatchTimer.showScreen('gameplayscreen')
 
     $('.cardscreen .cardtype option:selected').removeAttr('selected')
-
     $('.cardscreen .cardteam option:selected').removeAttr('selected')
-
     $('.cardscreen .cardplayer option:selected').removeAttr('selected')
-
     $('.cardscreen .cardtype option:disabled').prop('selected', true)
-
     $('.cardscreen .cardteam option:disabled').prop('selected', true)
-
     $('.cardscreen .cardplayer option:disabled').prop('selected', true)
   }
 }
 
 MatchTimer.returnToMatchSelect = function () {
   $('.matchlistscreen').removeClass('disabled')
-
   $('.gameplayscreen').addClass('disabled')
 }
 
 MatchTimer.deleteData = function () {
-  /* this.data.date = null;
-
-    this.data.lastTime = null;
-
-    this.data.timerTime = null;
-
-    this.data.renderedTime = null;
-
-    this.data.isRunning = false;
-
-    this.data.events = []; */
-
   var match = MatchTimer.data.currentMatch
 
-  if (MatchTimer.data.match[match].events.length == 0) {
+  if (MatchTimer.data.match[match].events.length === 0) {
     delete MatchTimer.data.match[match]
 
     MatchTimer.refreshMatchList()
-
     MatchTimer.showScreen('matchlistscreen')
-
     MatchTimer.storeData()
   } else {
     MatchTimer.data.match[match].lastTime = null
-
     MatchTimer.data.match[match].timerTime = null
-
     MatchTimer.data.match[match].renderedTime = null
-
     MatchTimer.data.match[match].isRunning = false
-
     MatchTimer.data.match[match].events = []
-
     MatchTimer.data.match[match].team1.points = 0
-
     MatchTimer.data.match[match].team2.points = 0
 
     MatchTimer.setRenderedTime()
-
     MatchTimer.refreshTimerView()
-
     MatchTimer.refreshPointsView()
-
     MatchTimer.refreshEventsList()
-
     MatchTimer.showScreen('gameplayscreen')
   }
 }
@@ -984,9 +875,7 @@ MatchTimer.reset = function () {
   var match = this.data.currentMatch
 
   this.setRenderedTime()
-
   this.refreshTimerView()
-
   this.initEventsList()
 
   // init
@@ -1005,9 +894,7 @@ MatchTimer.reset = function () {
     }
 
     MatchTimer.addEvent('normal', 'Start')
-
     MatchTimer.setStateRunning()
-
     MatchTimer.setDeleteButtonState()
   })
 
@@ -1015,9 +902,7 @@ MatchTimer.reset = function () {
 
   $('.stop').click(function () {
     MatchTimer.addEvent('normal', 'Stop')
-
     MatchTimer.setStatePaused()
-
     MatchTimer.setDeleteButtonState()
   })
 
@@ -1028,8 +913,6 @@ MatchTimer.reset = function () {
       $('.goalscreen .deletegoal').not('.disabled').addClass('disabled')
 
       MatchTimer.showScreen('goalscreen')
-
-      /* MatchTimer.addEvent("goal", "Gol"); */
     }
   })
 
@@ -1040,8 +923,6 @@ MatchTimer.reset = function () {
       $('.cardscreen .deletecard').not('.disabled').addClass('disabled')
 
       MatchTimer.showScreen('cardscreen')
-
-      // MatchTimer.addEvent("card", "Kartka");
     }
   })
 
@@ -1050,8 +931,6 @@ MatchTimer.reset = function () {
   $('.email').click(function () {
     if (MatchTimer.data.match[MatchTimer.data.currentMatch].isRunning) {
       MatchTimer.showScreen('emailscreen')
-
-      // MatchTimer.addEvent("card", "Kartka");
     }
   })
 }
@@ -1135,7 +1014,7 @@ MatchTimer.incrementTimer = function () {
 
   var match = MatchTimer.data.currentMatch
 
-  if (MatchTimer.data.match[match].isRunning == false) {
+  if (MatchTimer.data.match[match].isRunning === false) {
     return false
   }
 
@@ -1168,9 +1047,9 @@ MatchTimer.refreshPointsView = function () {
   match.team2.points = 0
 
   for (var i in match.events) {
-    if (match.events[i].type == 'goal' && match.events[i].val1 == match.team1.name) {
+    if (match.events[i].type === 'goal' && match.events[i].val1 === match.team1.name) {
       match.team1.points += 1
-    } else if (match.events[i].type == 'goal' && match.events[i].val1 == match.team2.name) {
+    } else if (match.events[i].type === 'goal' && match.events[i].val1 === match.team2.name) {
       match.team2.points += 1
     }
   }
@@ -1279,7 +1158,7 @@ MatchTimer.refreshEventsList = function () {
 
       var event = MatchTimer.data.match[MatchTimer.data.currentMatch].events[id]
 
-      if (event.type == 'goal') {
+      if (event.type === 'goal') {
         $('.goalscreen select.goalteam').val(event.val1).change()
 
         $('.goalscreen select.goalplayer').val(event.val2).change()
@@ -1297,7 +1176,7 @@ MatchTimer.refreshEventsList = function () {
         MatchTimer.showScreen('goalscreen')
       }
 
-      if (event.type == 'card') {
+      if (event.type === 'card') {
         $('.cardscreen select.cardtype').val(event.val1).change()
 
         $('.cardscreen select.cardteam').val(event.val2).change()
@@ -1337,7 +1216,7 @@ MatchTimer.initEventsList = function () {
 }
 
 MatchTimer.deleteGoal = function () {
-  if (MatchTimer.editEvent == true && this.data.match[this.data.currentMatch].events[MatchTimer.eventId].type == 'goal') {
+  if (MatchTimer.editEvent === true && this.data.match[this.data.currentMatch].events[MatchTimer.eventId].type === 'goal') {
     this.data.match[this.data.currentMatch].events.splice(MatchTimer.eventId, 1)
 
     MatchTimer.refreshEventsList()
@@ -1355,7 +1234,7 @@ MatchTimer.deleteGoal = function () {
 }
 
 MatchTimer.deleteCard = function () {
-  if (MatchTimer.editEvent == true && this.data.match[this.data.currentMatch].events[MatchTimer.eventId].type == 'card') {
+  if (MatchTimer.editEvent === true && this.data.match[this.data.currentMatch].events[MatchTimer.eventId].type === 'card') {
     this.data.match[this.data.currentMatch].events.splice(MatchTimer.eventId, 1)
 
     MatchTimer.refreshEventsList()
@@ -1378,43 +1257,33 @@ MatchTimer.reset(); */
 
 MatchTimer.sendEmail = function () {
   var email = $('.emailscreen .email_default').val()
-
-  var email_x = $('.emailscreen .email_x').val()
-
-  var email_y = []
+  var emailX = $('.emailscreen .email_x').val()
+  var emailY = []
 
   $('.email_y:checked').each(function (i) {
-    email_y[i] = $(this).val()
+    emailY[i] = $(this).val()
   })
 
-  if (typeof (email_x) !== 'undefined' && email_x.length > 0) {
-    email_y[email_y.length] = email_x
+  if (typeof (emailX) !== 'undefined' && emailX.length > 0) {
+    emailY[emailY.length] = emailX
   }
 
   var senderEmail = MatchTimer.config.senderEmail
-
-  var securityToken = MatchTimer.config.securityToken
-
+  // var securityToken = MatchTimer.config.securityToken
   var match = this.data.match[this.data.currentMatch]
+  var subject = match.date + ': ' + match.team1.name + ' vs ' + match.team2.name
+  var body = getMatchHtml(match)
 
+  /*
   var team1 = match.team1.name
-
   var team2 = match.team2.name
-
   var date = match.date
-
   var refereeName = match.refereeName
-
   var events = ''
-
   var subject = date + ': ' + team1 + ' vs ' + team2
-
   var body = '<h1>' + team1 + ' ' + match.team1.points + ':' + match.team2.points + ' ' + team2 + '\n</h1>'
-
   body += '<h2>' + date + '</h2>'
-
   body += '<h3>Sędzia: ' + refereeName + '</h3>'
-
   body += '<table>'
 
   for (var key in match.events) {
@@ -1430,42 +1299,26 @@ MatchTimer.sendEmail = function () {
   body += '</table>'
 
   body += '<pre>' + match.notes + '</pre>'
+  */
 
   $('.emailprogressscreen .loader').removeClass('disabled')
-
   $('.emailprogressscreen .error').not('.disabled').addClass('disabled')
 
-  // email.js
-
   Email.send({
-
     to: email,
-
     from: senderEmail,
-
     fromName: 'Karta sędziego',
-
     subject: subject,
-
     body: body
-
   })
 
-  for (i in email_y) {
-    // email.js
-
+  for (let i in emailY) {
     Email.send({
-
-      to: email_y[i],
-
+      to: emailY[i],
       from: senderEmail,
-
       fromName: 'Karta sędziego',
-
       subject: subject,
-
       body: body
-
     })
   }
 
