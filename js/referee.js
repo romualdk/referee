@@ -302,50 +302,29 @@ MatchTimer.addMatch = function (team1, team2, refereeName) {
     return false
   } else {
     this.data.match[id] = {
-
       date: MatchTimer.getActualDate(),
-
       interval: null,
-
       lastTime: null,
-
       timerTime: 0,
-
       renderedTime: null,
-
       isRunning: false,
-
       notes: 'Uwagi:\n',
-
       team1: {
-
         name: team1,
-
         points: 0
-
       },
-
       team2: {
-
         name: team2,
-
         points: 0
-
       },
-
       refereeName: refereeName,
-
       events: []
-
     }
-
     this.data.lastRefereeName = refereeName
   }
 
   this.storeData()
-
   this.refreshMatchList()
-
   this.showScreen('matchlistscreen')
 }
 
@@ -356,47 +335,28 @@ MatchTimer.refreshMatchList = function () {
     var id = 'match_' + key
 
     if (typeof (this.data.match[key]) !== 'undefined') {
-      // console.log(this.data);
-
       var date = this.data.match[key].date
-
       var team1 = this.data.match[key].team1.name
-
       var team2 = this.data.match[key].team2.name
-
       var button = '<div id="' + id + '" class="teams">' +
-
             '<div class="date">' + date + '</div>' +
-
             '<div>' +
-
             '<div class="team field"><div>' + team1 + '</div></div>' +
-
             '<div class="vs field"><div>vs</div></div>' +
-
             '<div class="team field"><div>' + team2 + '</div></div>' +
-
             '<div style="clear: left"></div>' +
-
             '</div>' +
-
             '</div>'
 
       $('.matcheslist').append(button)
 
       $('#' + id).click(function () {
         var key = $(this).attr('id')
-
         key = key.replace('match_', '')
-
-        // console.log(key);
-
         MatchTimer.setMatch(key)
       })
     }
   }
-
-  // console.log(this.data);
 }
 
 MatchTimer.isRunningAnyMatch = function () {
@@ -469,166 +429,30 @@ MatchTimer.setDeleteButtonState = function () {
   }
 }
 
-/**
- * MATCH HTML FILE
- */
-function getMatchHtml (match) {
-  var html =
-  `<html>
-    <head>
-      <meta charset="utf-8">
-      <title>${match.date} : ${match.team1.name} vs ${match.team2.name}</title>
-      <style type="text/css">
-        html,
-        body {
-          font-family: Helvetica Neue, sans-serif;
-        }
-
-        .wrapper {
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          margin: auto;
-          width: 600px;
-        }
-
-        @media screen and (max-width: 500px) {
-          .wrapper {
-            width: 100%;
-            margin: 0;
-          }
-        }
-
-        h1, h2, h3 {
-          text-align: center;
-        }
-
-        table {
-          border-collapse: collapse;
-          margin-bottom: 16px;
-          width: 100%
-        }
-        
-        table, th, td {
-          border: 1px solid black;
-        }
-
-        td {
-          padding: 4px 8px;
-        }
-      </style>
-    </head>
-  <body>
-  <div class="wrapper">
-    <h1>
-      <span class="team1">${match.team1.name}</span> 
-      <span class="team1_points">${match.team1.points}</span>
-      : 
-      <span class="team2_points">${match.team2.points}</span> 
-      <span class="team2">${match.team2.name}</span>
-    </h1>
-    <h2><span class="date">${match.date}</span></h2>
-    <h3>Sędzia: <span class="referee">${match.refereeName}</span></h3>`
-
-  if (typeof match.team1.players !== 'undefined' || typeof match.team2.players !== 'undefined') {
-    var n = Math.max(match.team1.players.length, match.team2.players.length)
-
-    if (n > 0) {
-      html +=
-      `<table class="players">
-      <tr>
-        <th colspan="2">Skład drużyn</th>
-      </tr>
-      <tr>
-        <th>${match.team1.name}</th>
-        <th>${match.team2.name}</th>
-      </tr>`
-
-      for (var nn = 0; nn < n; nn++) {
-        var p1 = typeof match.team1.players[nn] !== 'undefined' ? match.team1.players[nn] : ''
-        var p2 = typeof match.team2.players[nn] !== 'undefined' ? match.team2.players[nn] : ''
-        html +=
-        `<tr>
-          <td class="team1 player">${p1}</td>
-          <td class="team2 player">${p2}</td>
-        </tr>`
-      }
-
-      html += `</table>`
-    }
-  }
-
-  if (match.events.length > 0) {
-    html += `<table class="events">
-    <tr>
-      <th colspan="3">Zdarzenia</th>
-    </tr>`
-
-    for (var key in match.events) {
-      var event = match.events[key]
-      html +=
-      `<tr class="event">
-        <td class="timerTime">${event.timerTime}</td>
-        <td class="description">${event.description}</td>
-        <td class="actualTime">${event.actualTime}</td>
-      </tr>`
-    }
-
-    html += `</table>`
-  }
-
-  html += `<pre class="notes">${match.notes}</pre>`
-
-  html +=
-  `</div>
-  </body>
-  </html>`
-
-  return html
-}
-
 MatchTimer.setMatch = function (key) {
-  // console.log("SET MATCH: " + key);
-
   this.data.currentMatch = key
 
   this.reset()
 
-  /* this.data.team1.name = this.database.matches[key][0];
-
-    this.data.team2.name = this.database.matches[key][0]; */
-
   $('#team1 div').text(this.data.match[key].team1.name)
-
   $('#team2 div').text(this.data.match[key].team2.name)
-
   $('#refereeName').text(this.data.match[key].refereeName)
-
   $('.gameplayscreen').removeClass('disabled')
-
   $('.matchlistscreen').addClass('disabled')
 
   MatchTimer.setDeleteButtonState()
 
   $('.matchnotes').val(this.data.match[key].notes)
 
-  // goal selects
-
   $('.goalscreen select.goalteam').empty()
-
   $('.goalscreen select.goalteam').append('<option disabled selected></option>')
-
   $('.goalscreen select.goalteam').append('<option>' + this.data.match[key].team1.name + '</option>')
-
   $('.goalscreen select.goalteam').append('<option>' + this.data.match[key].team2.name + '</option>')
-
   $('.goalscreen select.goalteam').change(function () {
     var team = $(this).val()
 
     if (typeof (MatchTimer.database.teams[team]) !== 'undefined') {
       $('.goalscreen select.goalplayer').empty()
-
       $('.goalscreen select.goalplayer').append('<option disabled selected></option>')
 
       for (var key in MatchTimer.database.teams[team]) {
@@ -642,9 +466,7 @@ MatchTimer.setMatch = function (key) {
 
     if (player === 'SAMOBÓJ') {
       var team = $('.goalscreen select.goalteam').val()
-
       var match = MatchTimer.data.match[MatchTimer.data.currentMatch]
-
       var opponentTeam = null
 
       if (team === match.team1.name) {
@@ -655,7 +477,6 @@ MatchTimer.setMatch = function (key) {
 
       if (typeof (MatchTimer.database.teams[opponentTeam]) !== 'undefined') {
         $('.goalscreen select.opponentPlayer').empty()
-
         $('.goalscreen select.opponentPlayer').append('<option disabled selected></option>')
 
         for (var key in MatchTimer.database.teams[opponentTeam]) {
@@ -676,19 +497,14 @@ MatchTimer.setMatch = function (key) {
   // card selects
 
   $('.cardscreen select.cardteam').empty()
-
   $('.cardscreen select.cardteam').append('<option disabled selected></option>')
-
   $('.cardscreen select.cardteam').append('<option>' + this.data.match[key].team1.name + '</option>')
-
   $('.cardscreen select.cardteam').append('<option>' + this.data.match[key].team2.name + '</option>')
-
   $('.cardscreen select.cardteam').change(function () {
     var team = $(this).val()
 
     if (typeof (MatchTimer.database.teams[team]) !== 'undefined') {
       $('.cardscreen select.cardplayer').empty()
-
       $('.cardscreen select.cardplayer').append('<option disabled selected></option>')
 
       for (var key in MatchTimer.database.teams[team]) {
@@ -706,27 +522,17 @@ MatchTimer.setMatch = function (key) {
   })
 
   MatchTimer.refreshEventsList()
-
   MatchTimer.refreshPointsView()
 }
 
 MatchTimer.addGoal = function () {
   var team = $('.goalscreen select.goalteam').val()
-
   var player = $('.goalscreen select.goalplayer').val()
-
   var match = MatchTimer.data.match[MatchTimer.data.currentMatch]
 
   if (team !== match.team1.name && team !== match.team2.name) {
     return false
   }
-  /*
-  else if (team === match.team1.name) {
-    var teamNo = 1
-  } else {
-    var teamNo = 2
-  }
-  */
 
   if (MatchTimer.database.teams[team].indexOf(player) === -1) {
     return false
@@ -794,11 +600,8 @@ MatchTimer.addGoal = function () {
 
 MatchTimer.addCard = function () {
   var type = $('.cardscreen select.cardtype').val()
-
   var team = $('.cardscreen select.cardteam').val()
-
   var player = $('.cardscreen select.cardplayer').val()
-
   var match = MatchTimer.data.match[MatchTimer.data.currentMatch]
 
   if (typeof (type) === 'undefined' || type == null) {
@@ -951,11 +754,8 @@ MatchTimer.setRenderedTime = function () {
   var match = this.data.currentMatch
 
   const numOfMinutes = Math.floor(this.data.match[match].timerTime / 60)
-
   const numOfSeconds = this.data.match[match].timerTime % 60
-
   var minutes = numOfMinutes >= 10 ? numOfMinutes : '0' + numOfMinutes
-
   var seconds = numOfSeconds >= 10 ? numOfSeconds : '0' + numOfSeconds
 
   this.data.match[match].renderedTime = minutes + ':' + seconds
@@ -967,23 +767,16 @@ MatchTimer.initTimer = function () {
 
 MatchTimer.setStateRunning = function () {
   var match = this.data.currentMatch
-
   this.data.match[match].isRunning = true
-
   clearInterval(this.data.match[match].interval)
 
   var d = new Date()
-
   this.data.match[match].lastTime = d.getTime()
-
   this.data.match[match].interval = setInterval(MatchTimer.incrementTimer, 1000)
 
   $('.stop').removeClass('disabled')
-
   $('.start').addClass('disabled')
-
   $('.goal').removeClass('inactive')
-
   $('.card').removeClass('inactive')
 
   this.storeData()
@@ -994,24 +787,17 @@ MatchTimer.setStatePaused = function () {
 
   this.data.match[match].isRunning = false
 
-  // clearInterval(this.interval);
-
   clearInterval(this.data.match[match].interval)
 
   $('.start').removeClass('disabled')
-
   $('.stop').addClass('disabled')
-
   $('.goal').addClass('inactive')
-
   $('.card').addClass('inactive')
 
   this.storeData()
 }
 
 MatchTimer.incrementTimer = function () {
-  // MatchTimer.data.timerTime += 1;
-
   var match = MatchTimer.data.currentMatch
 
   if (MatchTimer.data.match[match].isRunning === false) {
@@ -1019,17 +805,12 @@ MatchTimer.incrementTimer = function () {
   }
 
   var d = new Date()
-
   var t = d.getTime()
 
   MatchTimer.data.match[match].timerTime += Math.round((t - MatchTimer.data.match[match].lastTime) / 1000)
-
   MatchTimer.data.match[match].lastTime = t
-
   MatchTimer.setRenderedTime()
-
   MatchTimer.refreshTimerView()
-
   MatchTimer.storeData()
 }
 
@@ -1043,7 +824,6 @@ MatchTimer.refreshPointsView = function () {
   var match = MatchTimer.data.match[MatchTimer.data.currentMatch]
 
   match.team1.points = 0
-
   match.team2.points = 0
 
   for (var i in match.events) {
@@ -1061,11 +841,8 @@ MatchTimer.refreshPointsView = function () {
 
 MatchTimer.getActualDate = function () {
   var today = new Date()
-
   var dd = today.getDate()
-
   var mm = today.getMonth() + 1 // January is 0!
-
   var yyyy = today.getFullYear()
 
   if (dd < 10) {
@@ -1081,9 +858,7 @@ MatchTimer.getActualDate = function () {
 
 MatchTimer.getActualTime = function () {
   var d = new Date()
-
   var hours = d.getHours()
-
   var minutes = d.getMinutes()
 
   minutes = minutes >= 10 ? minutes : '0' + minutes
@@ -1095,28 +870,18 @@ MatchTimer.addEvent = function (type, description, val1, val2, val3, val4) {
   var match = this.data.currentMatch
 
   var event = {
-
     type: type,
-
     description: description,
-
     timerTime: this.data.match[match].renderedTime,
-
     actualTime: this.getActualTime(),
-
     val1: val1,
-
     val2: val2,
-
     val3: val3,
-
     val4: val4
-
   }
 
   if (MatchTimer.eventId > 0) {
     event.timerTime = this.data.match[match].events[MatchTimer.eventId].timerTime
-
     event.actualTime = this.data.match[match].events[MatchTimer.eventId].actualTime
 
     this.data.match[match].events[MatchTimer.eventId] = event
@@ -1125,22 +890,12 @@ MatchTimer.addEvent = function (type, description, val1, val2, val3, val4) {
   }
 
   MatchTimer.eventId = null
-
   MatchTimer.editEvent = false
-
-  // MatchTimer.addEventToList(event);
-
   MatchTimer.refreshEventsList()
 
   this.storeData()
 
   MatchTimer.setDeleteButtonState()
-}
-
-MatchTimer.clearEventsList = function () {
-
-  // $(".events").empty();
-
 }
 
 MatchTimer.refreshEventsList = function () {
@@ -1160,15 +915,11 @@ MatchTimer.refreshEventsList = function () {
 
       if (event.type === 'goal') {
         $('.goalscreen select.goalteam').val(event.val1).change()
-
         $('.goalscreen select.goalplayer').val(event.val2).change()
 
         MatchTimer.editEvent = true
-
         MatchTimer.eventId = id
-
         MatchTimer.prevVal1 = event.val1
-
         MatchTimer.prevVal2 = event.val2
 
         $('.goalscreen .deletegoal').removeClass('disabled')
@@ -1178,19 +929,13 @@ MatchTimer.refreshEventsList = function () {
 
       if (event.type === 'card') {
         $('.cardscreen select.cardtype').val(event.val1).change()
-
         $('.cardscreen select.cardteam').val(event.val2).change()
-
         $('.cardscreen select.cardplayer').val(event.val3).change()
 
         MatchTimer.editEvent = true
-
         MatchTimer.eventId = id
-
         MatchTimer.prevVal1 = event.val1
-
         MatchTimer.prevVal2 = event.val2
-
         MatchTimer.prevVal3 = event.val3
 
         $('.cardscreen .deletecard').removeClass('disabled')
@@ -1208,8 +953,6 @@ MatchTimer.addEventToList = function (event) {
 MatchTimer.initEventsList = function () {
   var match = this.data.currentMatch
 
-  this.clearEventsList()
-
   for (var i in this.data.events) {
     this.addEventToList(this.data.match[match].events[i])
   }
@@ -1220,13 +963,10 @@ MatchTimer.deleteGoal = function () {
     this.data.match[this.data.currentMatch].events.splice(MatchTimer.eventId, 1)
 
     MatchTimer.refreshEventsList()
-
     MatchTimer.refreshPointsView()
-
     MatchTimer.showScreen('gameplayscreen')
 
     $('.goalscreen select.goalteam').val('').change()
-
     $('.goalscreen select.goalplayer').val('').change()
 
     MatchTimer.editEvent = false
@@ -1238,22 +978,15 @@ MatchTimer.deleteCard = function () {
     this.data.match[this.data.currentMatch].events.splice(MatchTimer.eventId, 1)
 
     MatchTimer.refreshEventsList()
-
     MatchTimer.showScreen('gameplayscreen')
 
     $('.cardscreen select.cardtype').val('').change()
-
     $('.cardscreen select.cardteam').val('').change()
-
     $('.cardscreen select.cardplayer').val('').change()
 
     MatchTimer.editEvent = false
   }
 }
-
-/*
-
-MatchTimer.reset(); */
 
 MatchTimer.sendEmail = function () {
   var email = $('.emailscreen .email_default').val()
@@ -1269,37 +1002,9 @@ MatchTimer.sendEmail = function () {
   }
 
   var senderEmail = MatchTimer.config.senderEmail
-  // var securityToken = MatchTimer.config.securityToken
   var match = this.data.match[this.data.currentMatch]
   var subject = match.date + ': ' + match.team1.name + ' vs ' + match.team2.name
   var body = getMatchHtml(match)
-
-  /*
-  var team1 = match.team1.name
-  var team2 = match.team2.name
-  var date = match.date
-  var refereeName = match.refereeName
-  var events = ''
-  var subject = date + ': ' + team1 + ' vs ' + team2
-  var body = '<h1>' + team1 + ' ' + match.team1.points + ':' + match.team2.points + ' ' + team2 + '\n</h1>'
-  body += '<h2>' + date + '</h2>'
-  body += '<h3>Sędzia: ' + refereeName + '</h3>'
-  body += '<table>'
-
-  for (var key in match.events) {
-    var event = match.events[key]
-
-    body += '<tr>'
-
-    body += '<td>' + event.timerTime + '</td><td>' + event.description + '</td><td>' + event.actualTime + '</td>'
-
-    body += '</tr>'
-  }
-
-  body += '</table>'
-
-  body += '<pre>' + match.notes + '</pre>'
-  */
 
   $('.emailprogressscreen .loader').removeClass('disabled')
   $('.emailprogressscreen .error').not('.disabled').addClass('disabled')
@@ -1323,6 +1028,125 @@ MatchTimer.sendEmail = function () {
   }
 
   MatchTimer.showScreen('gameplayscreen')
+}
+
+/**
+ * MATCH HTML FILE
+ */
+function getMatchHtml (match) {
+  var html =
+  `<html>
+    <head>
+      <meta charset="utf-8">
+      <title>${match.date} : ${match.team1.name} vs ${match.team2.name}</title>
+      <style type="text/css">
+        html,
+        body {
+          font-family: Helvetica Neue, sans-serif;
+        }
+
+        .wrapper {
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          margin: auto;
+          width: 600px;
+        }
+
+        @media screen and (max-width: 500px) {
+          .wrapper {
+            width: 100%;
+            margin: 0;
+          }
+        }
+
+        h1, h2, h3 {
+          text-align: center;
+        }
+
+        table {
+          border-collapse: collapse;
+          margin-bottom: 16px;
+          width: 100%
+        }
+        
+        table, th, td {
+          border: 1px solid black;
+        }
+
+        td {
+          padding: 4px 8px;
+        }
+      </style>
+    </head>
+  <body>
+  <div class="wrapper">
+    <h1>
+      <span class="team1">${match.team1.name}</span> 
+      <span class="team1_points">${match.team1.points}</span>
+      : 
+      <span class="team2_points">${match.team2.points}</span> 
+      <span class="team2">${match.team2.name}</span>
+    </h1>
+    <h2><span class="date">${match.date}</span></h2>
+    <h3>Sędzia: <span class="referee">${match.refereeName}</span></h3>`
+
+  if (typeof match.team1.players !== 'undefined' || typeof match.team2.players !== 'undefined') {
+    var n = Math.max(match.team1.players.length, match.team2.players.length)
+
+    if (n > 0) {
+      html +=
+      `<table class="players">
+      <tr>
+        <th colspan="2">Skład drużyn</th>
+      </tr>
+      <tr>
+        <th>${match.team1.name}</th>
+        <th>${match.team2.name}</th>
+      </tr>`
+
+      for (var nn = 0; nn < n; nn++) {
+        var p1 = typeof match.team1.players[nn] !== 'undefined' ? match.team1.players[nn] : ''
+        var p2 = typeof match.team2.players[nn] !== 'undefined' ? match.team2.players[nn] : ''
+        html +=
+        `<tr>
+          <td class="team1 player">${p1}</td>
+          <td class="team2 player">${p2}</td>
+        </tr>`
+      }
+
+      html += `</table>`
+    }
+  }
+
+  if (match.events.length > 0) {
+    html += `<table class="events">
+    <tr>
+      <th colspan="3">Zdarzenia</th>
+    </tr>`
+
+    for (var key in match.events) {
+      var event = match.events[key]
+      html +=
+      `<tr class="event">
+        <td class="timerTime">${event.timerTime}</td>
+        <td class="description">${event.description}</td>
+        <td class="actualTime">${event.actualTime}</td>
+      </tr>`
+    }
+
+    html += `</table>`
+  }
+
+  html += `<pre class="notes">${match.notes}</pre>`
+
+  html +=
+  `</div>
+  </body>
+  </html>`
+
+  return html
 }
 
 MatchTimer.init()
