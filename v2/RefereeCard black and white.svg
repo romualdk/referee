@@ -16,7 +16,10 @@
    version="1.1"
    id="svg8"
    inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
-   sodipodi:docname="Football-360-games.svg">
+   sodipodi:docname="RefereeCard black and white.svg"
+   inkscape:export-filename="C:\Users\Romuald\Documents\GitHub\referee\v2\rc bw 06 player edit.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96">
   <defs
      id="defs2">
     <linearGradient
@@ -570,10 +573,10 @@
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.0000001"
-     inkscape:cx="496.5773"
-     inkscape:cy="367.19151"
+     inkscape:cx="225.50102"
+     inkscape:cy="255.91578"
      inkscape:document-units="px"
-     inkscape:current-layer="layer8"
+     inkscape:current-layer="g585"
      showgrid="false"
      units="px"
      inkscape:pagecheckerboard="true"
@@ -620,8 +623,7 @@
      inkscape:groupmode="layer"
      id="g585"
      inkscape:label="Match paused"
-     style="display:inline"
-     sodipodi:insensitive="true">
+     style="display:inline">
     <rect
        inkscape:label="Background"
        y="6.6418183e-06"
@@ -651,54 +653,77 @@
          id="rect527"
          style="display:inline;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.26458335" />
       <g
-         id="g535"
-         inkscape:label="Share"
-         transform="translate(0,-0.33097255)">
+         id="g4366"
+         transform="translate(-1.2434964,-0.00902017)">
         <path
            inkscape:connector-curvature="0"
-           d="m 82.735361,160.38248 c -0.201084,0 -0.381,0.0794 -0.518584,0.20373 l -1.886479,-1.09802 c 0.01323,-0.0609 0.02381,-0.12171 0.02381,-0.18521 0,-0.0635 -0.01058,-0.12436 -0.02381,-0.18521 l 1.865313,-1.08744 c 0.142875,0.13229 0.330729,0.21431 0.53975,0.21431 a 0.79375001,0.79375001 0 0 0 0.79375,-0.79375 0.79375001,0.79375001 0 0 0 -0.79375,-0.79375 0.79375001,0.79375001 0 0 0 -0.79375,0.79375 c 0,0.0635 0.01058,0.12436 0.02381,0.18521 l -1.865313,1.08744 c -0.142875,-0.13229 -0.330729,-0.21431 -0.53975,-0.21431 a 0.79375001,0.79375001 0 0 0 -0.79375,0.79375 0.79375001,0.79375001 0 0 0 0.79375,0.79375 c 0.209021,0 0.396875,-0.082 0.53975,-0.21432 l 1.883833,1.09803 c -0.01323,0.0556 -0.02117,0.11377 -0.02117,0.17462 0,0.42598 0.346604,0.76994 0.772583,0.76994 0.42598,0 0.772584,-0.34396 0.772584,-0.76994 a 0.77258334,0.77258334 0 0 0 -0.772583,-0.77258 z"
+           d="m 83.249572,160.06958 c -0.201084,0 -0.381,0.0794 -0.518584,0.20373 l -1.886479,-1.09802 c 0.01323,-0.0609 0.02381,-0.12171 0.02381,-0.18521 0,-0.0635 -0.01058,-0.12436 -0.02381,-0.18521 l 1.865313,-1.08744 c 0.142875,0.13229 0.330729,0.21431 0.53975,0.21431 a 0.79375001,0.79375001 0 0 0 0.79375,-0.79374 0.79375001,0.79375001 0 0 0 -0.79375,-0.79375 0.79375001,0.79375001 0 0 0 -0.79375,0.79375 c 0,0.0635 0.01058,0.12436 0.02381,0.18521 l -1.865313,1.08744 c -0.142875,-0.1323 -0.330729,-0.21432 -0.53975,-0.21432 a 0.79375001,0.79375001 0 0 0 -0.79375,0.79375 0.79375001,0.79375001 0 0 0 0.79375,0.79375 c 0.209021,0 0.396875,-0.082 0.53975,-0.21432 l 1.883833,1.09803 c -0.01323,0.0556 -0.02117,0.11377 -0.02117,0.17462 0,0.42598 0.346604,0.76994 0.772583,0.76994 0.42598,0 0.772584,-0.34396 0.772584,-0.76994 a 0.77258334,0.77258334 0 0 0 -0.772583,-0.77258 z"
            id="path529"
-           style="fill:#757575;fill-opacity:1;stroke-width:0.26458335" />
+           style="fill:#757575;fill-opacity:1;stroke-width:0.26458335"
+           inkscape:label="Share icon" />
         <text
            xml:space="preserve"
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.64444494px;line-height:1.25;font-family:Roboto;-inkscape-font-specification:Roboto;letter-spacing:0px;word-spacing:0px;fill:#757575;fill-opacity:1;stroke:none;stroke-width:0.26458335"
            x="73.289627"
-           y="165.62918"
-           id="text533"><tspan
+           y="165.2982"
+           id="text533"
+           inkscape:label="Share label"><tspan
              sodipodi:role="line"
              id="tspan531"
              x="73.289627"
-             y="165.62918"
+             y="165.2982"
              style="font-size:3.52777791px;fill:#757575;fill-opacity:1;stroke-width:0.26458335">Udostępnij</tspan></text>
       </g>
       <g
-         id="g543"
-         inkscape:label="Info"
-         transform="translate(-0.8761036,-0.32190353)">
+         id="g4356"
+         transform="translate(-0.38870156,-0.00902063)">
         <path
            inkscape:connector-curvature="0"
-           d="M 49.609379,157.1625 H 48.50342 c -0.150812,-0.41275 -0.605895,-0.62442 -1.010708,-0.47625 -0.227542,0.0794 -0.396875,0.254 -0.481542,0.47625 h -1.105958 a 0.52916667,0.52916667 0 0 0 -0.529167,0.52916 v 3.70417 a 0.52916667,0.52916667 0 0 0 0.529167,0.52917 h 3.704167 a 0.52916667,0.52916667 0 0 0 0.529166,-0.52917 v -3.70417 a 0.52916667,0.52916667 0 0 0 -0.529166,-0.52916 m -1.852084,0 a 0.26458334,0.26458334 0 0 1 0.264584,0.26458 0.26458334,0.26458334 0 0 1 -0.264584,0.26458 0.26458334,0.26458334 0 0 1 -0.264583,-0.26458 0.26458334,0.26458334 0 0 1 0.264583,-0.26458 m -1.322916,1.05833 h 2.645833 v -0.52917 h 0.529167 v 3.70417 h -3.704167 v -3.70417 h 0.529167 v 0.52917 m 2.645833,1.05833 H 46.434379 V 158.75 h 2.645833 v 0.52916 m -0.529167,1.05834 h -2.116666 v -0.52917 h 2.116666 z"
+           d="m 35.321821,156.85867 h -1.105959 c -0.150812,-0.41275 -0.605895,-0.62442 -1.010708,-0.47625 -0.227542,0.0794 -0.396875,0.254 -0.481542,0.47625 h -1.105958 a 0.52916667,0.52916667 0 0 0 -0.529167,0.52916 v 3.70417 a 0.52916667,0.52916667 0 0 0 0.529167,0.52917 h 3.704167 a 0.52916667,0.52916667 0 0 0 0.529166,-0.52917 v -3.70417 a 0.52916667,0.52916667 0 0 0 -0.529166,-0.52916 m -1.852084,0 a 0.26458334,0.26458334 0 0 1 0.264584,0.26458 0.26458334,0.26458334 0 0 1 -0.264584,0.26458 0.26458334,0.26458334 0 0 1 -0.264583,-0.26458 0.26458334,0.26458334 0 0 1 0.264583,-0.26458 m -1.322916,1.05833 h 2.645833 v -0.52917 h 0.529167 v 3.70417 h -3.704167 v -3.70417 h 0.529167 v 0.52917 m 2.645833,1.05833 h -2.645833 v -0.52916 h 2.645833 v 0.52916 m -0.529167,1.05834 h -2.116666 v -0.52917 h 2.116666 z"
            id="path537"
-           style="fill:#757575;fill-opacity:1;stroke-width:0.26458335" />
+           style="fill:#757575;fill-opacity:1;stroke-width:0.26458335"
+           inkscape:label="Info icon" />
         <text
            id="text541"
-           y="165.62918"
-           x="39.952099"
+           y="165.30728"
+           x="24.920732"
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.64444494px;line-height:1.25;font-family:Roboto;-inkscape-font-specification:Roboto;letter-spacing:0px;word-spacing:0px;fill:#757575;fill-opacity:1;stroke:none;stroke-width:0.26458335"
-           xml:space="preserve"><tspan
+           xml:space="preserve"
+           inkscape:label="Info label"><tspan
              style="font-size:3.52777791px;fill:#757575;fill-opacity:1;stroke-width:0.26458335"
-             y="165.62918"
-             x="39.952099"
+             y="165.30728"
+             x="24.920732"
              id="tspan539"
              sodipodi:role="line">Informacje</tspan></text>
       </g>
       <g
-         id="g551"
-         inkscape:label="Clock"
-         transform="translate(0,-0.1686858)">
+         id="g4361"
+         transform="translate(1.2892301,-0.42995)">
         <path
            inkscape:connector-curvature="0"
-           d="m 13.824478,161.39583 a 1.8520834,1.8520834 0 0 1 -1.852083,-1.85209 1.8520834,1.8520834 0 0 1 1.852083,-1.85208 1.8520834,1.8520834 0 0 1 1.852084,1.85208 1.8520834,1.8520834 0 0 1 -1.852084,1.85209 m 1.860021,-3.3364 0.375709,-0.37571 c -0.119063,-0.13494 -0.238125,-0.25664 -0.373063,-0.37306 l -0.375708,0.381 c -0.410104,-0.33338 -0.926042,-0.52917 -1.486959,-0.52917 a 2.38125,2.38125 0 0 0 -2.38125,2.38125 2.38125,2.38125 0 0 0 2.38125,2.38125 c 1.322917,0 2.38125,-1.06627 2.38125,-2.38125 0,-0.56091 -0.195791,-1.07685 -0.521229,-1.48431 m -2.124604,1.7489 h 0.529167 v -1.5875 h -0.529167 m 1.058333,-1.85209 h -1.5875 v 0.52917 h 1.5875 z"
+           d="m 55.231913,157.05995 a 0.92604168,0.92604168 0 0 1 0.926042,0.92605 0.92604168,0.92604168 0 0 1 -0.926042,0.92604 0.92604168,0.92604168 0 0 1 -0.926042,-0.92604 0.92604168,0.92604168 0 0 1 0.926042,-0.92605 m -1.852083,0.66146 c 0.148166,0 0.28575,0.0397 0.404812,0.11113 -0.03969,0.37835 0.07144,0.75406 0.298979,1.04775 -0.132291,0.254 -0.396875,0.42862 -0.703791,0.42862 a 0.79375001,0.79375001 0 0 1 -0.79375,-0.79375 0.79375001,0.79375001 0 0 1 0.79375,-0.79375 m 3.704166,0 a 0.79375001,0.79375001 0 0 1 0.79375,0.79375 0.79375001,0.79375001 0 0 1 -0.79375,0.79375 c -0.306916,0 -0.5715,-0.17462 -0.703791,-0.42862 0.227541,-0.29369 0.338666,-0.6694 0.298979,-1.04775 0.119062,-0.0714 0.256646,-0.11113 0.404812,-0.11113 m -3.571875,2.71198 c 0,-0.54769 0.769938,-0.99219 1.719792,-0.99219 0.949854,0 1.719792,0.4445 1.719792,0.99219 v 0.46302 h -3.439584 v -0.46302 m -1.455208,0.46302 v -0.39687 c 0,-0.36777 0.500062,-0.67734 1.177396,-0.76729 -0.156104,0.17991 -0.251354,0.42862 -0.251354,0.70114 v 0.46302 h -0.926042 m 6.35,0 h -0.926042 v -0.46302 c 0,-0.27252 -0.09525,-0.52123 -0.251354,-0.70114 0.677333,0.09 1.177396,0.39952 1.177396,0.76729 z"
+           id="path611"
+           style="fill:#757575;fill-opacity:1;stroke-width:0.26458335"
+           inkscape:label="Group icon" />
+        <text
+           inkscape:label="Group label"
+           id="text629"
+           y="165.42436"
+           x="46.672554"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.64444494px;line-height:1.25;font-family:Roboto;-inkscape-font-specification:Roboto;letter-spacing:0px;word-spacing:0px;display:inline;fill:#757575;fill-opacity:1;stroke:none;stroke-width:0.26458335"
+           xml:space="preserve"><tspan
+             style="font-size:3.52777791px;fill:#757575;fill-opacity:1;stroke-width:0.26458335"
+             y="165.42436"
+             x="46.672554"
+             id="tspan627"
+             sodipodi:role="line">Zawodnicy</tspan></text>
+      </g>
+      <g
+         id="g4351"
+         transform="translate(-1.2434964,2.0345731e-5)">
+        <path
+           inkscape:connector-curvature="0"
+           d="m 13.904921,161.22714 a 1.8520834,1.8520834 0 0 1 -1.852083,-1.85209 1.8520834,1.8520834 0 0 1 1.852083,-1.85208 1.8520834,1.8520834 0 0 1 1.852084,1.85208 1.8520834,1.8520834 0 0 1 -1.852084,1.85209 m 1.860021,-3.3364 0.375709,-0.37571 c -0.119063,-0.13494 -0.238125,-0.25664 -0.373063,-0.37306 l -0.375708,0.381 c -0.410104,-0.33338 -0.926042,-0.52917 -1.486959,-0.52917 a 2.38125,2.38125 0 0 0 -2.38125,2.38125 2.38125,2.38125 0 0 0 2.38125,2.38125 c 1.322917,0 2.38125,-1.06627 2.38125,-2.38125 0,-0.56091 -0.195791,-1.07685 -0.521229,-1.48431 m -2.124604,1.7489 h 0.529167 v -1.5875 h -0.529167 m 1.058333,-1.85209 h -1.5875 v 0.52917 h 1.5875 z"
            id="path545"
            style="fill:#000000;fill-opacity:1;stroke-width:0.26458335"
            inkscape:label="Timer icon" />
@@ -706,12 +731,13 @@
            xml:space="preserve"
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.64444494px;line-height:1.25;font-family:Roboto;-inkscape-font-specification:Roboto;letter-spacing:0px;word-spacing:0px;fill:#00002a;fill-opacity:1;stroke:none;stroke-width:0.26458335"
            x="8.7312489"
-           y="165.62918"
-           id="text549"><tspan
+           y="165.46049"
+           id="text549"
+           inkscape:label="Timer label"><tspan
              sodipodi:role="line"
              id="tspan547"
              x="8.7312489"
-             y="165.62918"
+             y="165.46049"
              style="font-size:3.52777791px;fill:#00002a;fill-opacity:1;stroke-width:0.26458335">Stoper</tspan></text>
       </g>
     </g>
@@ -1368,7 +1394,7 @@
      inkscape:groupmode="layer"
      id="g1536"
      inkscape:label="Match default"
-     style="display:inline"
+     style="display:none"
      sodipodi:insensitive="true">
     <rect
        inkscape:label="Background"
